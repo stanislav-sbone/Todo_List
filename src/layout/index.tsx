@@ -3,9 +3,11 @@ import Header from '../components/Header';
 import TaskForm from '../components/TaskForm';
 import TaskList from '../components/TasksList';
 import type { TaskType } from '../types/task';
+import FilterForm from '../components/FilterForm';
 
 const Layout: FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
+  const [searchInput, setSearchInput] = useState('');
 
   const addTask = (text: string) => {
     const newTask = {
@@ -22,7 +24,8 @@ const Layout: FC = () => {
       <Header />
       <main>
         <TaskForm addTask={addTask} />
-        <TaskList tasks={tasks} setTasks={setTasks} />
+        <FilterForm searchInput={searchInput} setSearchInput={setSearchInput} />
+        <TaskList tasks={tasks} setTasks={setTasks} searchInput={searchInput} />
       </main>
     </div>
   );

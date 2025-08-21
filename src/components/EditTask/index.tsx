@@ -1,4 +1,4 @@
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { useEffect, useRef, useState, type FC, type FormEvent } from 'react';
 
 interface IProps {
@@ -24,12 +24,17 @@ const EditTask: FC<IProps> = ({ id, text, editText, cancelEdit }) => {
   return (
     <div className="flex justify-between items-center py-3 border-[rgba(108,99,255,.5)] not-first:border-t-1">
       <form
-        className="flex items-center"
+        className="flex items-center relative"
         onSubmit={(event) => handleSubmit(event)}
       >
+        <div className="absolute text-[#6C63FF] top-1">
+          <EditOutlined className="text-xl " />
+        </div>
         <div>
           <input
-            className={`text-[20px] font-medium ml-10 outline-none w-[630px] mr-9`}
+            className={
+              'realtive text-[20px] font-medium ml-10 outline-none w-[630px] mr-9'
+            }
             placeholder="Изменить задачу"
             value={editingText}
             onChange={(event) => setEditingText(event.target.value)}

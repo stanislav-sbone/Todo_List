@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import type { TaskType } from '../../types/task';
 import Task from '../Task';
 import EditTask from '../EditTask';
@@ -6,9 +6,24 @@ import EditTask from '../EditTask';
 interface IProps {
   tasks: TaskType[];
   setTasks: (tasks: TaskType[]) => void;
+  searchInput: string;
 }
 
-const TaskList: FC<IProps> = ({ tasks, setTasks }) => {
+const TaskList: FC<IProps> = ({ tasks, setTasks, searchInput }) => {
+  const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
+
+  useEffect(() => {
+    if (!searchInput) {
+      setFilteredTasks([...tasks]);
+    }
+
+    setFilteredTasks(
+      tasks.filter((task) =>
+        task.text.toLowerCase().includes(searchInput.toLowerCase())
+      )
+    );
+  }, [tasks, searchInput]);
+
   const toggleTask = (id: number) => {
     setTasks(
       tasks.map((task) =>
@@ -25,7 +40,7 @@ const TaskList: FC<IProps> = ({ tasks, setTasks }) => {
     setTasks(
       tasks.map((task) =>
         task.id === id
-          ? { ...task, isCompleted: false, isEditing: true }
+          ? { ...task, isEditing: true }
           : { ...task, isEditing: false }
       )
     );
@@ -49,7 +64,7 @@ const TaskList: FC<IProps> = ({ tasks, setTasks }) => {
 
   return (
     <div className="my-4 w-[750px] max-w-[750px]">
-      {tasks
+      {filteredTasks
         .toReversed()
         .map((task) =>
           task.isEditing ? (

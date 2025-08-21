@@ -10,7 +10,7 @@ const Checkbox: FC<IProps> = ({ checked, onChange }) => {
     <button
       onClick={onChange}
       className={`
-        w-6 h-6 flex items-center justify-center rounded-md border-1 transition-colors border-[#6c63ff]
+        w-6 h-6 cursor-pointer flex items-center justify-center rounded-md border-1 transition-colors border-[#6c63ff]
         ${checked ? 'bg-[#6c63ff]' : ''}
       `}
     >
