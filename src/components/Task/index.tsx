@@ -1,5 +1,5 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import type { FC } from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { type FC } from 'react';
 import Checkbox from '../Checkbox';
 
 interface IProps {
@@ -8,6 +8,7 @@ interface IProps {
   isCompleted: boolean;
   toggleTask: (id: number) => void;
   removeTask: (id: number) => void;
+  editTask: (id: number) => void;
 }
 
 const Task: FC<IProps> = ({
@@ -16,21 +17,25 @@ const Task: FC<IProps> = ({
   isCompleted,
   toggleTask,
   removeTask,
+  editTask,
 }) => {
   return (
-    <div className="flex justify-between items-center py-3 border-[rgba(108,99,255,.5)] not-first:border-t-1">
-      <div className="flex items-center">
+    <div className="flex justify-between items-center py-3 border-[rgba(108,99,255,.5)] not-first:border-t-1 group">
+      <div className="flex items-center cursor-pointer">
         <Checkbox checked={isCompleted} onChange={() => toggleTask(id)} />
         <p
-          className={`text-[20px] font-medium ml-4 pr-10 transition-colors duration-250 ease-in-out break-all w-[700px] ${isCompleted ? 'line-through text-[#8e8e8e]' : ''}`}
+          className={`text-[20px] font-medium ml-4 transition-colors duration-250 ease-in-out break-all w-[600px] ${isCompleted ? 'line-through text-[#8e8e8e]' : ''}`}
           onClick={() => toggleTask(id)}
         >
           {text}
         </p>
       </div>
-      <div>
+      <div className="flex gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <button className="cursor-pointer">
+          <EditOutlined className="text-medium" onClick={() => editTask(id)} />
+        </button>
         <button className="cursor-pointer" onClick={() => removeTask(id)}>
-          <DeleteOutlined />
+          <DeleteOutlined className="text-medium" />
         </button>
       </div>
     </div>

@@ -8,7 +8,12 @@ const Layout: FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
 
   const addTask = (text: string) => {
-    const newTask = { id: Date.now(), text: text, isCompleted: false };
+    const newTask = {
+      id: Date.now(),
+      text: text,
+      isCompleted: false,
+      isEditing: false,
+    };
     setTasks((prev) => [...prev, newTask]);
   };
 
