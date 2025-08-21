@@ -4,3 +4,5 @@ export interface TaskType {
   isCompleted: boolean;
   isEditing: boolean;
 }
+
+export type Sort = 'ALL' | 'COMPLETED' | 'INCOMPLETED';
