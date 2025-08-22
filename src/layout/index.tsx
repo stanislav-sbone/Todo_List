@@ -5,6 +5,7 @@ import TaskList from '../components/TasksList';
 import type { Sort, TaskType } from '../types';
 import FilterForm from '../components/FilterForm';
 import Dropdown from '../components/Dropdown';
+import ThemeButton from '../components/ThemeButton';
 
 const Layout: FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -39,19 +40,18 @@ const Layout: FC = () => {
   };
 
   return (
-    <div className="bg-[#f7f7f7] flex items-center flex-col flex-1 min-w-[750px]">
+    <div className="bg-[#f7f7f7] dark:bg-[#252525] flex items-center flex-col flex-1 min-w-[750px] transition-colors duration-500">
       <Header />
       <main className="w-[750px]">
         <TaskForm addTask={addTask} />
-        {tasks.length !== 0 && (
-          <div className="flex justify-between items-center">
-            <FilterForm
-              searchInput={searchInput}
-              setSearchInput={setSearchInput}
-            />
-            <Dropdown sortValue={sortValue} setSortValue={setSortValue} />
-          </div>
-        )}
+        <div className="flex justify-between items-center">
+          <FilterForm
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+          />
+          <ThemeButton />
+          <Dropdown sortValue={sortValue} setSortValue={setSortValue} />
+        </div>
         <TaskList
           sortedTasks={sortedTasks}
           setTasks={setTasks}

@@ -68,7 +68,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, setTasks, searchInput }) => {
         <div className="w-[250px]">
           <img src="/cat.png" alt="cat" />
         </div>
-        <div className=" text-[#6C63FF] text-xl font-medium">
+        <div className=" text-[#6C63FF] dark:text-[#f7f7f7] text-xl font-medium">
           Список задач сейчас пуст
         </div>
       </div>
@@ -81,7 +81,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, setTasks, searchInput }) => {
         <div>
           <img src="/nomatch.png" alt="nomatches" />
         </div>
-        <div className="text-[#6C63FF] text-xl font-medium mt-4">
+        <div className="text-[#6C63FF] dark:text-[#f7f7f7] text-xl font-medium mt-4">
           Совпадения не найдены
         </div>
       </div>

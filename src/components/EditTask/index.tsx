@@ -33,7 +33,7 @@ const EditTask: FC<IProps> = ({ id, text, editText, cancelEdit }) => {
         <div>
           <input
             className={
-              'realtive text-[20px] font-medium ml-10 outline-none w-[630px] mr-9'
+              'dark:text-[#f7f7f7] realtive text-[20px] font-medium ml-10 outline-none w-[630px] mr-9'
             }
             placeholder="Изменить задачу"
             value={editingText}
@@ -42,10 +42,14 @@ const EditTask: FC<IProps> = ({ id, text, editText, cancelEdit }) => {
           />
         </div>
         <div className="flex gap-2.5">
-          <button type="submit">
+          <button className="dark:text-[#f7f7f7]" type="submit">
             <CheckOutlined className="text-medium cursor-pointer" />
           </button>
-          <button type="button" onClick={() => cancelEdit(id)}>
+          <button
+            className="dark:text-[#f7f7f7]"
+            type="button"
+            onClick={() => cancelEdit(id)}
+          >
             <CloseOutlined className="text-medium cursor-pointer" />
           </button>
         </div>

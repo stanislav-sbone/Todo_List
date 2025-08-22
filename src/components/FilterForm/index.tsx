@@ -13,7 +13,7 @@ const FilterForm: FC<IProps> = ({ searchInput, setSearchInput }) => {
 
   return (
     <div className="mt-2 relative">
-      <div className="absolute text-[#6C63FF] top-3 left-3">
+      <div className="absolute text-[#6C63FF] dark:text-[#f7f7f7] top-3 left-3">
         <SearchOutlined className="text-xl" />
       </div>
       <input
@@ -21,11 +21,11 @@ const FilterForm: FC<IProps> = ({ searchInput, setSearchInput }) => {
         placeholder="Поиск задачи"
         value={searchInput}
         onChange={(event) => setSearchInput(event.target.value)}
-        className="relative text-[#6C63FF] border-[#6C63FF] text-[16px] font-medium border-1 rounded-[5px] w-[550px] py-2 px-10 focus:outline-[#6c63ff66] focus:outline-3"
+        className="relative text-[#6C63FF] dark:text-[#f7f7f7] border-[#6C63FF] dark:border-[#f7f7f7] text-[16px] font-medium border-1 rounded-[5px] w-[520px] py-2 px-10 focus:outline-[#6c63ff66] dark:focus:outline-[#f7f7f766] focus:outline-3"
       />
       {searchInput && (
         <button
-          className="absolute text-[#6C63FF] right-4 top-2.5 cursor-pointer"
+          className="absolute text-[#6C63FF] dark:text-[#f7f7f7] right-4 top-2.5 cursor-pointer"
           onClick={() => clearInput()}
         >
           <CloseOutlined />
