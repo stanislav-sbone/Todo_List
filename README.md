@@ -19,4 +19,4 @@
 - Tailwind CSS
 - Ant Design
 - Pre-commit hook (Husky + lint-staged)
-- ESLint + Prettier
+- Node Js + Express JS

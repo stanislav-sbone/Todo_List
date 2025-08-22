@@ -1,45 +1,32 @@
 {
   "name": "todo-list",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "prepare": "husky",
+    "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
-  "dependencies": {
-    "@ant-design/icons": "~5.6.1",
-    "@tailwindcss/vite": "^4.1.12",
-    "antd": "^5.27.1",
-    "lucide-react": "^0.540.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "tailwindcss": "^4.1.12"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanislav-sbone/Todo_List.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/stanislav-sbone/Todo_List/issues"
+  },
+  "homepage": "https://github.com/stanislav-sbone/Todo_List#readme",
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react-swc": "^4.0.0",
-    "eslint": "^9.33.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
-    "prettier": "3.6.2",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "prettier": "3.6.2"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "prettier --write",
-      "eslint --fix"
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier . --write"
     ]
   }
 }

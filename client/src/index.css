@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100dvh;
+  color: #252525;
+}
