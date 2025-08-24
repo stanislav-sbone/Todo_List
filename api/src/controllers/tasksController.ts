@@ -12,7 +12,7 @@ export const createTask = (req: Request, res: Response) => {
 };
 
 export const deleteTask = (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+  const id = req.params.id;
 
   const index = TASKS.findIndex((task) => task.id === id);
   if (index === -1) {
@@ -24,7 +24,7 @@ export const deleteTask = (req: Request, res: Response) => {
 };
 
 export const updateTask = (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+  const id = req.params.id;
   const updatedFields = req.body;
 
   const task = TASKS.find((t) => t.id === id);

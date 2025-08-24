@@ -3,12 +3,12 @@ import { type FC } from "react";
 import Checkbox from "../Checkbox";
 
 interface IProps {
-  id: number;
+  id: string;
   text: string;
   isCompleted: boolean;
-  toggleTask: (id: number) => void;
-  removeTask: (id: number) => void;
-  editTask: (id: number) => void;
+  toggleTask: (id: string) => void;
+  removeTask: (id: string) => void;
+  editTask: (id: string) => void;
 }
 
 const Task: FC<IProps> = ({

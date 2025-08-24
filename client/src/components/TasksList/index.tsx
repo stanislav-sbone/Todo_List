@@ -19,7 +19,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
       id,
       updatedFields,
     }: {
-      id: number;
+      id: string;
       updatedFields: Partial<TaskType>;
     }) => updateTask(id, updatedFields),
     onSuccess: () => {
@@ -28,7 +28,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
   });
 
   const deleteTaskMutation = useMutation({
-    mutationFn: (id: number) => deleteTask(id),
+    mutationFn: (id: string) => deleteTask(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
@@ -46,7 +46,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
     );
   }, [sortedTasks, searchInput]);
 
-  const toggleTask = async (id: number) => {
+  const toggleTask = async (id: string) => {
     const task = sortedTasks.find((task) => task.id === id);
     if (!task) return;
     updateTaskMutation.mutate({
@@ -55,25 +55,25 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
     });
   };
 
-  const removeTask = async (id: number) => {
+  const removeTask = async (id: string) => {
     deleteTaskMutation.mutate(id);
   };
 
-  const editTask = (id: number) => {
+  const editTask = (id: string) => {
     updateTaskMutation.mutate({
       id,
       updatedFields: { isEditing: true },
     });
   };
 
-  const editText = (text: string, id: number) => {
+  const editText = (text: string, id: string) => {
     updateTaskMutation.mutate({
       id,
       updatedFields: { text, isEditing: false },
     });
   };
 
-  const cancelEdit = (id: number) => {
+  const cancelEdit = (id: string) => {
     updateTaskMutation.mutate({
       id,
       updatedFields: { isEditing: false },

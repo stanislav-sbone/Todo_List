@@ -8,6 +8,7 @@ import Dropdown from "../components/Dropdown";
 import ThemeButton from "../components/ThemeButton";
 import { createTask, getTasks } from "../components/services/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { nanoid } from "nanoid";
 
 const Layout: FC = () => {
   const [sortedTasks, setSortedTasks] = useState<TaskType[]>([]);
@@ -49,7 +50,7 @@ const Layout: FC = () => {
 
   const addTask = async (text: string) => {
     const newTask: TaskType = {
-      id: tasks.length + 1,
+      id: nanoid(),
       text: text,
       isCompleted: false,
       isEditing: false,

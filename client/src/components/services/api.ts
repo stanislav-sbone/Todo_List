@@ -22,7 +22,7 @@ export const createTask = async (newTask: TaskType) => {
   }
 };
 
-export const deleteTask = async (id: number) => {
+export const deleteTask = async (id: string) => {
   try {
     const response = await axios.delete(`${URL}/${id}`);
     return response.data;
@@ -32,7 +32,7 @@ export const deleteTask = async (id: number) => {
 };
 
 export const updateTask = async (
-  id: number,
+  id: string,
   updatedFields: Partial<TaskType>,
 ) => {
   try {

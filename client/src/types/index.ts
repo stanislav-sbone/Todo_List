@@ -1,5 +1,5 @@
 export interface TaskType {
-  id: number;
+  id: string;
   text: string;
   isCompleted: boolean;
   isEditing: boolean;
