@@ -3,15 +3,36 @@ import type { TaskType } from "../../types";
 import Task from "../Task";
 import EditTask from "../EditTask";
 import { deleteTask, updateTask } from "../services/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface IProps {
   sortedTasks: TaskType[];
-  setTasks: (tasks: TaskType[]) => void;
   searchInput: string;
 }
 
-const TaskList: FC<IProps> = ({ sortedTasks, setTasks, searchInput }) => {
+const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
   const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
+  const queryClient = useQueryClient();
+
+  const updateTaskMutation = useMutation({
+    mutationFn: ({
+      id,
+      updatedFields,
+    }: {
+      id: number;
+      updatedFields: Partial<TaskType>;
+    }) => updateTask(id, updatedFields),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+
+  const deleteTaskMutation = useMutation({
+    mutationFn: (id: number) => deleteTask(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
 
   useEffect(() => {
     if (!searchInput) {
@@ -25,41 +46,38 @@ const TaskList: FC<IProps> = ({ sortedTasks, setTasks, searchInput }) => {
     );
   }, [sortedTasks, searchInput]);
 
-  const updateTaskLocal = (id: number, updatedFields: Partial<TaskType>) => {
-    setTasks(
-      sortedTasks.map((task) =>
-        task.id === id ? { ...task, ...updatedFields } : task,
-      ),
-    );
-  };
-
   const toggleTask = async (id: number) => {
     const task = sortedTasks.find((task) => task.id === id);
     if (!task) return;
-    updateTaskLocal(id, { isCompleted: !task.isCompleted });
-    updateTask(id, { isCompleted: !task.isCompleted });
+    updateTaskMutation.mutate({
+      id,
+      updatedFields: { isCompleted: !task.isCompleted },
+    });
   };
 
   const removeTask = async (id: number) => {
-    const deletedTask = await deleteTask(id);
-    if (deletedTask) {
-      setTasks(sortedTasks.filter((task) => task.id !== id));
-    }
+    deleteTaskMutation.mutate(id);
   };
 
   const editTask = (id: number) => {
-    updateTaskLocal(id, { isEditing: true });
-    updateTask(id, { isEditing: true });
+    updateTaskMutation.mutate({
+      id,
+      updatedFields: { isEditing: true },
+    });
   };
 
   const editText = (text: string, id: number) => {
-    updateTaskLocal(id, { text: text, isEditing: false });
-    updateTask(id, { text: text, isEditing: false });
+    updateTaskMutation.mutate({
+      id,
+      updatedFields: { text, isEditing: false },
+    });
   };
 
   const cancelEdit = (id: number) => {
-    updateTaskLocal(id, { isEditing: false });
-    updateTask(id, { isEditing: false });
+    updateTaskMutation.mutate({
+      id,
+      updatedFields: { isEditing: false },
+    });
   };
 
   if (sortedTasks.length === 0) {
@@ -95,6 +113,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, setTasks, searchInput }) => {
         .map((task) =>
           task.isEditing ? (
             <EditTask
+              key={task.id}
               id={task.id}
               text={task.text}
               editText={editText}

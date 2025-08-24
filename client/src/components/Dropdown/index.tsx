@@ -50,7 +50,7 @@ const Dropdown: FC<IProps> = ({ sortValue, setSortValue }) => {
   return (
     <div className="relative" ref={wrapperRef}>
       <button
-        className="absolute bg-[#6C63FF] text-[#F7F7F7] text-[16px] font-medium outline-none p-2 pl-3 rounded-[5px] cursor-pointer min-w-[180px] right-0 -top-4 text-left flex items-center justify-between"
+        className="absolute bg-[#6C63FF] text-[#F7F7F7] text-[16px] font-medium outline-none p-2 pl-3 rounded-[5px] cursor-pointer min-w-[180px] right-0 -top-4 text-left flex items-center justify-between transition-colors duration-300 ease-in-out hover:bg-[#4944b8]"
         onClick={() => setIsOpenOptions(!isOpenOptions)}
       >
         {sortLabels[sortValue]}

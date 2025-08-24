@@ -16,6 +16,7 @@
 
 - React
 - TypeScript
+- TanStack Query
 - Tailwind CSS
 - Ant Design
 - Pre-commit hook (Husky + lint-staged)

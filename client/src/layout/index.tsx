@@ -7,19 +7,29 @@ import FilterForm from "../components/FilterForm";
 import Dropdown from "../components/Dropdown";
 import ThemeButton from "../components/ThemeButton";
 import { createTask, getTasks } from "../components/services/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const Layout: FC = () => {
-  const [tasks, setTasks] = useState<TaskType[]>([]);
   const [sortedTasks, setSortedTasks] = useState<TaskType[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [sortValue, setSortValue] = useState<Sort>("ALL");
 
-  useEffect(() => {
-    (async () => {
-      const result = await getTasks();
-      setTasks(result);
-    })();
-  }, []);
+  const queryClient = useQueryClient();
+
+  const { data: tasks = [] } = useQuery({
+    queryKey: ["tasks"],
+    queryFn: getTasks,
+    staleTime: 5 * 1000 * 60,
+    refetchOnWindowFocus: false,
+    retry: 3,
+  });
+
+  const addTaskMutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
 
   useEffect(() => {
     switch (sortValue) {
@@ -44,9 +54,7 @@ const Layout: FC = () => {
       isCompleted: false,
       isEditing: false,
     };
-
-    const response = await createTask(newTask);
-    setTasks((prev) => [...prev, response]);
+    addTaskMutation.mutate(newTask);
   };
 
   return (
@@ -62,11 +70,7 @@ const Layout: FC = () => {
           <ThemeButton />
           <Dropdown sortValue={sortValue} setSortValue={setSortValue} />
         </div>
-        <TaskList
-          sortedTasks={sortedTasks}
-          setTasks={setTasks}
-          searchInput={searchInput}
-        />
+        <TaskList sortedTasks={sortedTasks} searchInput={searchInput} />
       </main>
     </div>
   );
