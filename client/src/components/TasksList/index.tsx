@@ -107,7 +107,7 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
   }
 
   return (
-    <div className="my-4 w-[750px] max-w-[750px]">
+    <div className="my-4 w-[350px] md:w-[750px] md:max-w-[750px]">
       {filteredTasks
         .toReversed()
         .map((task) =>

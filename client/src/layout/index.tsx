@@ -59,11 +59,11 @@ const Layout: FC = () => {
   };
 
   return (
-    <div className="bg-[#f7f7f7] dark:bg-[#252525] flex items-center flex-col flex-1 min-w-[750px] transition-colors duration-500">
+    <div className="w-[100%] bg-[#f7f7f7] dark:bg-[#252525] flex items-center flex-col flex-1 transition-colors duration-500">
       <Header />
-      <main className="w-[750px]">
+      <main className="w-[350px] md:w-[750px]">
         <TaskForm addTask={addTask} />
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center flex-wrap">
           <FilterForm
             searchInput={searchInput}
             setSearchInput={setSearchInput}

@@ -21,7 +21,7 @@ const FilterForm: FC<IProps> = ({ searchInput, setSearchInput }) => {
         placeholder="Поиск задачи"
         value={searchInput}
         onChange={(event) => setSearchInput(event.target.value)}
-        className="relative text-[#6C63FF] dark:text-[#f7f7f7] border-[#6C63FF] dark:border-[#f7f7f7] text-[16px] font-medium border-1 rounded-[5px] w-[520px] py-2 px-10 focus:outline-[#6c63ff66] dark:focus:outline-[#f7f7f766] focus:outline-3"
+        className="relative text-[#6C63FF] dark:text-[#f7f7f7] border-[#6C63FF] dark:border-[#f7f7f7] text-[16px] font-medium border-1 rounded-[5px] w-[350px] md:w-[520px] py-2 px-10 focus:outline-[#6c63ff66] dark:focus:outline-[#f7f7f766] focus:outline-3"
       />
       {searchInput && (
         <button

@@ -45,7 +45,7 @@ const EditTask: FC<IProps> = ({ id, text, editText, cancelEdit }) => {
         <div>
           <input
             className={
-              "dark:text-[#f7f7f7] relative text-[20px] font-medium ml-10 outline-none w-[630px] mr-9"
+              "dark:text-[#f7f7f7] relative text-[20px] font-medium ml-10 outline-none w-[230px] md:w-[630px] mr-9"
             }
             placeholder="Изменить задачу"
             value={editingText}
@@ -54,7 +54,7 @@ const EditTask: FC<IProps> = ({ id, text, editText, cancelEdit }) => {
           />
         </div>
         {isOpenMessage && (
-          <div className="absolute text-sm text-red-600 right-14">
+          <div className="absolute text-[11px] md:text-sm text-red-600 right-14">
             заполните поле
           </div>
         )}

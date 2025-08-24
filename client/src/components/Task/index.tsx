@@ -24,13 +24,13 @@ const Task: FC<IProps> = ({
       <div className="flex items-center cursor-pointer">
         <Checkbox checked={isCompleted} onChange={() => toggleTask(id)} />
         <p
-          className={`dark:text-[#f7f7f7] text-[20px] font-medium ml-4 transition-colors duration-250 ease-in-out break-all w-[600px] ${isCompleted ? "line-through text-[#8e8e8e]" : ""}`}
+          className={`dark:text-[#f7f7f7] text-[20px] font-medium ml-4 transition-colors duration-250 ease-in-out break-all w-[200px] md:w-[600px] ${isCompleted ? "line-through text-[#8e8e8e]" : ""}`}
           onClick={() => toggleTask(id)}
         >
           {text}
         </p>
       </div>
-      <div className="flex gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="flex gap-3 md:opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <button className="dark:text-[#f7f7f7] cursor-pointer">
           <EditOutlined className="text-medium" onClick={() => editTask(id)} />
         </button>
