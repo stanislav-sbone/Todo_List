@@ -16,7 +16,10 @@ const TaskForm: FC<IProps> = ({ addTask }) => {
   };
 
   return (
-    <form className="flex gap-4" onSubmit={(event) => handleSubmit(event)}>
+    <form
+      className="hidden md:flex gap-4"
+      onSubmit={(event) => handleSubmit(event)}
+    >
       <input
         type="text"
         className="text-[#6C63FF] dark:text-[#f7f7f7] border-[#6C63FF] dark:border-[#f7f7f7] text-[16px] font-medium border-1 rounded-[5px] w-[100%] py-2 px-10 focus:outline-[#6c63ff66] dark:focus:outline-[#f7f7f766] focus:outline-2"

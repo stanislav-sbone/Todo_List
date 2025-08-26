@@ -9,11 +9,14 @@ import ThemeButton from "../components/ThemeButton";
 import { createTask, getTasks } from "../components/services/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
+import Modal from "../components/Modal";
+import OpenModalButton from "../components/OpenModalButton";
 
 const Layout: FC = () => {
   const [sortedTasks, setSortedTasks] = useState<TaskType[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [sortValue, setSortValue] = useState<Sort>("ALL");
+  const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -63,6 +66,7 @@ const Layout: FC = () => {
       <Header />
       <main className="w-[350px] md:w-[750px]">
         <TaskForm addTask={addTask} />
+        <OpenModalButton setIsOpen={() => setIsOpen(true)} />
         <div className="flex justify-between items-center flex-wrap">
           <FilterForm
             searchInput={searchInput}
@@ -73,6 +77,11 @@ const Layout: FC = () => {
         </div>
         <TaskList sortedTasks={sortedTasks} searchInput={searchInput} />
       </main>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        addTask={addTask}
+      />
     </div>
   );
 };
