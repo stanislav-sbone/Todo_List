@@ -2,8 +2,8 @@ import { useEffect, useState, type FC } from "react";
 import type { TaskType } from "../../types";
 import Task from "../Task";
 import EditTask from "../EditTask";
-import { deleteTask, updateTask } from "../services/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteTask, updateTask } from "../../services/api";
 
 interface IProps {
   sortedTasks: TaskType[];

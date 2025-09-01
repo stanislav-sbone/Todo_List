@@ -6,7 +6,7 @@ import type { Sort, TaskType } from "../types";
 import FilterForm from "../components/FilterForm";
 import Dropdown from "../components/Dropdown";
 import ThemeButton from "../components/ThemeButton";
-import { createTask, getTasks } from "../components/services/api";
+import { createTask, getTasks } from "../services/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import Modal from "../components/Modal";
