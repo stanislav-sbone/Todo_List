@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { TASKS } from "../data/tasks.ts";
+import { TASKS } from "../data/tasks.js";
 
 export const getTasks = (req: Request, res: Response) => {
   res.json(TASKS);
