@@ -2,10 +2,12 @@
 import axios from "axios";
 import type { TaskType } from "../types";
 import { URL } from "../constants";
+import { getUserId } from "../utils/user";
 
 export const getTasks = async (): Promise<TaskType[]> => {
   try {
-    const response = await axios.get<TaskType[]>(URL);
+    const userId = await getUserId();
+    const response = await axios.get<TaskType[]>(`${URL}?userId=${userId}`);
     return response.data;
   } catch (error) {
     console.error(`Ошибка ${error}`);
@@ -15,7 +17,8 @@ export const getTasks = async (): Promise<TaskType[]> => {
 
 export const createTask = async (newTask: TaskType) => {
   try {
-    const response = await axios.post(URL, newTask);
+    const userId = await getUserId();
+    const response = await axios.post(URL, { newTask, userId });
     return response.data;
   } catch (error) {
     console.error(`Ошибка ${error}`);
@@ -24,7 +27,8 @@ export const createTask = async (newTask: TaskType) => {
 
 export const deleteTask = async (id: string) => {
   try {
-    const response = await axios.delete(`${URL}/${id}`);
+    const userId = await getUserId();
+    const response = await axios.delete(`${URL}/${id}`, { data: { userId } });
     return response.data;
   } catch (error) {
     console.error(`Ошибка ${error}`);
@@ -36,7 +40,11 @@ export const updateTask = async (
   updatedFields: Partial<TaskType>,
 ) => {
   try {
-    const response = await axios.patch(`${URL}/${id}`, updatedFields);
+    const userId = await getUserId();
+    const response = await axios.patch(`${URL}/${id}`, {
+      updatedFields,
+      userId,
+    });
     return response.data;
   } catch (error) {
     console.error(`Ошибка ${error}`);
