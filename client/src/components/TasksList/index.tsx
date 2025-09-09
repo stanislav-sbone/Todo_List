@@ -8,9 +8,10 @@ import { deleteTask, updateTask } from "../../services/api";
 interface IProps {
   sortedTasks: TaskType[];
   searchInput: string;
+  isPending: boolean;
 }
 
-const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
+const TaskList: FC<IProps> = ({ sortedTasks, searchInput, isPending }) => {
   const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
   const queryClient = useQueryClient();
 
@@ -79,6 +80,19 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput }) => {
       updatedFields: { isEditing: false },
     });
   };
+
+  if (isPending) {
+    return (
+      <div className="flex flex-col justify-center items-center gap-4 py-12 h-75">
+        <div className="relative">
+          <div className="h-16 w-16 rounded-full border-4 border-[#6C63FF]/30 border-t-[#6C63FF] animate-spin"></div>
+        </div>
+        <div className=" text-[#6C63FF] dark:text-[#f7f7f7] text-xl font-medium">
+          Идет загрузка задач...
+        </div>
+      </div>
+    );
+  }
 
   if (sortedTasks.length === 0) {
     return (

@@ -24,7 +24,7 @@ export const getUserId = async (): Promise<string> => {
     userId = crypto.randomUUID();
     localStorage.setItem("userId", userId);
 
-    // Создаём задачи на сервере, добавляя userId к каждой
+    // Создание задач-заглушек для новых пользователей
     await Promise.all(initialTasks.map((task) => createTask(task)));
   }
 

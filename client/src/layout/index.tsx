@@ -20,7 +20,7 @@ const Layout: FC = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: tasks = [] } = useQuery({
+  const { data: tasks = [], isPending } = useQuery({
     queryKey: ["tasks"],
     queryFn: getTasks,
     staleTime: 5 * 1000 * 60,
@@ -75,7 +75,11 @@ const Layout: FC = () => {
           <ThemeButton />
           <Dropdown sortValue={sortValue} setSortValue={setSortValue} />
         </div>
-        <TaskList sortedTasks={sortedTasks} searchInput={searchInput} />
+        <TaskList
+          sortedTasks={sortedTasks}
+          searchInput={searchInput}
+          isPending={isPending}
+        />
       </main>
       <Modal
         isOpen={isOpen}
