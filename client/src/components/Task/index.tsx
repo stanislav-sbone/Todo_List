@@ -24,7 +24,7 @@ const Task: FC<IProps> = ({
       <div className="flex items-center cursor-pointer">
         <Checkbox checked={isCompleted} onChange={() => toggleTask(id)} />
         <p
-          className={`dark:text-[#f7f7f7] text-[20px] font-medium ml-4 transition-colors duration-250 ease-in-out break-all w-[200px] md:w-[600px] ${isCompleted ? "line-through text-[#8e8e8e]" : ""}`}
+          className={`dark:text-[#f7f7f7] text-[20px] font-medium ml-4 break-words transition-colors duration-250 ease-in-out w-[200px] md:w-[600px] ${isCompleted ? "line-through text-[#8e8e8e]" : ""}`}
           onClick={() => toggleTask(id)}
         >
           {text}
