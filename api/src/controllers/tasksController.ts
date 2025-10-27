@@ -46,3 +46,27 @@ export const updateTask = (req: Request, res: Response) => {
 
   res.status(201).json(task);
 };
+
+export const updateTasksOrder = (req: Request, res: Response) => {
+  const { tasks, userId } = req.body;
+
+  if (!tasks || !Array.isArray(tasks) || !userId) {
+    return res.status(400).json({ error: "Неправильные данные" });
+  }
+
+  try {
+    tasks.forEach((updatedTask: any) => {
+      const taskIndex = TASKS.findIndex(
+        (t) => t.id === updatedTask.id && t.userId === userId,
+      );
+
+      if (taskIndex !== -1) {
+        TASKS[taskIndex] = { ...TASKS[taskIndex], order: updatedTask.order };
+      }
+    });
+
+    res.status(200).json({ message: "Порядок задач обновлен" });
+  } catch (error) {
+    res.status(500).json({ error: "Ошибка обновления порядка задач" });
+  }
+};

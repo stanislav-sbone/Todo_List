@@ -3,7 +3,7 @@ import type { TaskType } from "../../types";
 import Task from "../Task";
 import EditTask from "../EditTask";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTask, updateTask } from "../../services/api";
+import { deleteTask, updateTask, updateTasksOrder } from "../../services/api";
 
 interface IProps {
   sortedTasks: TaskType[];
@@ -13,6 +13,7 @@ interface IProps {
 
 const TaskList: FC<IProps> = ({ sortedTasks, searchInput, isPending }) => {
   const [filteredTasks, setFilteredTasks] = useState<TaskType[]>([]);
+  const [draggedTask, setDraggedTask] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
   const updateTaskMutation = useMutation({
@@ -30,6 +31,13 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput, isPending }) => {
 
   const deleteTaskMutation = useMutation({
     mutationFn: (id: string) => deleteTask(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+
+  const updateTasksOrderMutation = useMutation({
+    mutationFn: (tasks: TaskType[]) => updateTasksOrder(tasks),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
@@ -81,6 +89,51 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput, isPending }) => {
     });
   };
 
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string) => {
+    setDraggedTask(id);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetId: string) => {
+    e.preventDefault();
+    if (!draggedTask || draggedTask === targetId) return;
+
+    const taskIndex = filteredTasks.findIndex((t) => t.id === targetId);
+    const draggedIndex = filteredTasks.findIndex((t) => t.id === draggedTask);
+
+    if (taskIndex === -1 || draggedIndex === -1) return;
+
+    // Находим индексы в полном списке sortedTasks
+    const allTaskIndex = sortedTasks.findIndex((t) => t.id === targetId);
+    const allDraggedIndex = sortedTasks.findIndex((t) => t.id === draggedTask);
+
+    if (allTaskIndex === -1 || allDraggedIndex === -1) return;
+
+    // Перемещаем в полном списке
+    const newAllTasks = [...sortedTasks];
+    const [removed] = newAllTasks.splice(allDraggedIndex, 1);
+    newAllTasks.splice(allTaskIndex, 0, removed);
+
+    // Обновляем порядок для всех задач
+    const updatedTasks = newAllTasks.map((task, index) => ({
+      ...task,
+      order: newAllTasks.length - index,
+    }));
+
+    // Отправляем обновление на сервер
+    updateTasksOrderMutation.mutate(updatedTasks);
+    setDraggedTask(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedTask(null);
+  };
+
   if (isPending) {
     return (
       <div className="flex flex-col justify-center items-center gap-4 py-12 h-75">
@@ -122,29 +175,37 @@ const TaskList: FC<IProps> = ({ sortedTasks, searchInput, isPending }) => {
 
   return (
     <div className="my-4 w-[350px] md:w-[750px] md:max-w-[750px]">
-      {filteredTasks
-        .toReversed()
-        .map((task) =>
-          task.isEditing ? (
-            <EditTask
-              key={task.id}
-              id={task.id}
-              text={task.text}
-              editText={editText}
-              cancelEdit={cancelEdit}
-            />
-          ) : (
+      {filteredTasks.toReversed().map((task) =>
+        task.isEditing ? (
+          <EditTask
+            key={task.id}
+            id={task.id}
+            text={task.text}
+            editText={editText}
+            cancelEdit={cancelEdit}
+          />
+        ) : (
+          <div
+            key={task.id}
+            draggable={!searchInput}
+            onDragStart={(e) => handleDragStart(e, task.id)}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, task.id)}
+            onDragEnd={handleDragEnd}
+            className={draggedTask === task.id ? "opacity-50" : ""}
+          >
             <Task
-              key={task.id}
               id={task.id}
               text={task.text}
               isCompleted={task.isCompleted}
               toggleTask={toggleTask}
               removeTask={removeTask}
               editTask={editTask}
+              isDragging={draggedTask === task.id}
             />
-          ),
-        )}
+          </div>
+        ),
+      )}
     </div>
   );
 };

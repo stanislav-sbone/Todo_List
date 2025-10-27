@@ -36,27 +36,37 @@ const Layout: FC = () => {
   });
 
   useEffect(() => {
+    const sortedByOrder = [...tasks].sort((a, b) => {
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      return orderB - orderA; // Более высокий order идет первым
+    });
+
     switch (sortValue) {
       case "ALL":
-        setSortedTasks([...tasks]);
+        setSortedTasks(sortedByOrder);
         break;
       case "COMPLETED":
-        setSortedTasks([...tasks.filter((task) => task.isCompleted)]);
+        setSortedTasks([...sortedByOrder.filter((task) => task.isCompleted)]);
         break;
       case "INCOMPLETED":
-        setSortedTasks([...tasks.filter((task) => !task.isCompleted)]);
+        setSortedTasks([...sortedByOrder.filter((task) => !task.isCompleted)]);
         break;
       default:
-        setSortedTasks([...tasks]);
+        setSortedTasks(sortedByOrder);
     }
   }, [tasks, sortValue]);
 
   const addTask = async (text: string) => {
+    const maxOrder =
+      tasks.length > 0 ? Math.max(...tasks.map((t) => t.order ?? 0), 0) : 0;
+
     const newTask: TaskType = {
       id: nanoid(),
       text: text,
       isCompleted: false,
       isEditing: false,
+      order: maxOrder + 1,
     };
     addTaskMutation.mutate(newTask);
   };

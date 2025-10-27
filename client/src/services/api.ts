@@ -50,3 +50,16 @@ export const updateTask = async (
     console.error(`Ошибка ${error}`);
   }
 };
+
+export const updateTasksOrder = async (tasks: TaskType[]) => {
+  try {
+    const userId = await getUserId();
+    const response = await axios.post(`${URL}/reorder`, {
+      tasks,
+      userId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Ошибка ${error}`);
+  }
+};

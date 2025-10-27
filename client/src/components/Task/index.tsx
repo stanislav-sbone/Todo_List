@@ -9,6 +9,7 @@ interface IProps {
   toggleTask: (id: string) => void;
   removeTask: (id: string) => void;
   editTask: (id: string) => void;
+  isDragging?: boolean;
 }
 
 const Task: FC<IProps> = ({
@@ -18,9 +19,12 @@ const Task: FC<IProps> = ({
   toggleTask,
   removeTask,
   editTask,
+  isDragging,
 }) => {
   return (
-    <div className="flex justify-between items-center py-3 border-[rgba(108,99,255,.5)] not-first:border-t-1 group">
+    <div
+      className={`flex justify-between items-center py-3 border-[rgba(108,99,255,.5)] not-first:border-t-1 group ${isDragging ? "cursor-move" : ""}`}
+    >
       <div className="flex items-center cursor-pointer">
         <Checkbox checked={isCompleted} onChange={() => toggleTask(id)} />
         <p
